@@ -1,32 +1,35 @@
 source 'https://rubygems.org'
- 
+
  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
  gem 'rails', '4.2.5'
- 
+
  group :production do
-   gem 'pg'
+   gem 'pg' #bundle install is not able to install this gem so I bundle install --without production.
    gem 'rails_12factor'
  end
- 
+
  group :development do
    gem 'sqlite3'
  end
- 
+
  gem 'sass-rails', '~> 5.0'
  gem 'uglifier', '>= 1.3.0'
  gem 'coffee-rails', '~> 4.1.0'
  gem 'jquery-rails'
  gem 'turbolinks'
- gem 'bootstrap'
+ #gem 'bootstrap' #I wasn't getting bootstrap working so I resorted to what the checkpoint on CSS suggested.
+ gem 'bootstrap-sass'
  gem 'figaro'
  gem 'pry'
 
  group :development, :test do
    gem 'byebug'
-   gem 'web-console', '~> 2.0'
+   #gem 'web-console', '~> 2.0' #rspec complains about this being defined in the test environment. What's it for?
    gem 'spring'
    gem 'rspec-rails'
    gem 'shoulda'
    gem 'faker'
    gem 'factory_girl_rails'
+   gem 'better_errors'
+   gem "binding_of_caller"
  end
