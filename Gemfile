@@ -17,10 +17,10 @@ source 'https://rubygems.org'
  gem 'coffee-rails', '~> 4.1.0'
  gem 'jquery-rails'
  gem 'turbolinks'
- #gem 'bootstrap' #I wasn't getting bootstrap working so I resorted to what the checkpoint on CSS suggested.
  gem 'bootstrap-sass'
  gem 'figaro'
  gem 'pry'
+ gem 'devise'
 
  group :development, :test do
    gem 'byebug'
