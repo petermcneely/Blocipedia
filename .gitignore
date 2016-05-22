@@ -21,3 +21,7 @@
 
 # Ignore byebug_history
 /.byebug_history
+
+#Ignore spec policies until they work
+/spec/policies
+/spec/support/pundit_matcher.rb
