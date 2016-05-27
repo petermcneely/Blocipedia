@@ -3,7 +3,7 @@
     <%= @wiki.title %>
     <div>
       <small>
-        submitted <%= time_ago_in_words(@wiki.created_at)%> ago by <%= @wiki.user.email %>
+        submitted <%= time_ago_in_words(@wiki.created_at)%> ago by <%= @wiki.user.email %> <%= "(private)" if @wiki.private? %>
       </small>
     </div>
   </h2>
