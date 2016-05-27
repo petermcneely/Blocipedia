@@ -4,7 +4,7 @@
 <% if current_user.standard? %>
   <%= button_to "Upgrade Account", new_charge_path(current_user), method: :get, class: 'btn btn-success' %>
 <% elsif current_user.premium? %>
-  <%= button_to "Downgrade Account", charges_downgrade_path(current_user), method: :get, class:'btn btn-danger' %>
+  <%= button_to "Downgrade Account", charges_downgrade_path(current_user), data: {confirm: "All your private wikis will become public. Are you sure you want to downgrade your account?"}, method: :get, class:'btn btn-danger' %>
 <% end %>
 
 <br/>

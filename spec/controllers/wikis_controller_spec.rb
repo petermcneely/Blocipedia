@@ -3,51 +3,137 @@ require 'rails_helper'
 RSpec.describe WikisController, type: :controller do
   let(:my_user) {FactoryGirl.create(:user)}
   let(:my_wiki) {FactoryGirl.create(:wiki, user: my_user)}
+  let(:my_private_wiki) {FactoryGirl.create(:wiki, user: my_user, private: true)}
 
   describe "GET index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
+    context "guest" do
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+
+      it "assigns my_wiki to @wikis" do
+        get :index
+        expect(assigns(:wikis)).to eq([my_wiki])
+      end
     end
 
-    it "assigns my_wiki to @wikis" do
-      get :index
-      expect(assigns(:wikis)).to eq([my_wiki])
+    context "standard user" do
+      login_user
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+
+      it "assigns my_wiki and my_private_wiki to @wikis" do
+        get :index
+        expect(assigns(:wikis)).to eq([my_wiki, my_private_wiki])
+      end
+    end
+
+    context "premium user" do
+      login_user
+      before do
+        subject.current_user.premium!
+      end
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+
+      it "assigns my_wiki and my_private_wiki to @wikis" do
+        get :index
+        expect(assigns(:wikis)).to eq([my_wiki, my_private_wiki])
+      end
+    end
+
+    context "admin" do
+      login_user
+      before do
+        subject.current_user.admin!
+      end
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+
+      it "assigns my_wiki and my_private_wiki to @wikis" do
+        get :index
+        expect(assigns(:wikis)).to eq([my_wiki, my_private_wiki])
+      end
     end
   end
 
   describe "GET new" do
-    login_user
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
+    context "guest" do
+      it "redirects to the sign in page" do
+        get :new
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
 
-    it "renders the new template" do
-      get :new
-      expect(response).to render_template(:new)
-    end
+    context "user" do
+      login_user
+      it "returns http success" do
+        get :new
+        expect(response).to have_http_status(:success)
+      end
 
-    it "instantiates the @wiki" do
-      get :new
-      expect(:wiki).not_to be_nil
+      it "renders the new template" do
+        get :new
+        expect(response).to render_template(:new)
+      end
+
+      it "instantiates the @wiki" do
+        get :new
+        expect(:wiki).not_to be_nil
+      end
     end
   end
 
   describe "GET show" do
-    it "returns http success" do
-      get :show, id: my_wiki.id
-      expect(response).to have_http_status(:success)
+    context "public wikis" do
+      it "returns http success" do
+        get :show, id: my_wiki.id
+        expect(response).to have_http_status(:success)
+      end
+
+      it "renders the show template" do
+        get :show, id: my_wiki.id
+        expect(response).to render_template(:show)
+      end
+
+      it "assigns my_wiki to the @wiki" do
+        get :show, id: my_wiki.id
+        expect(assigns(:wiki)).to eq my_wiki
+      end
     end
 
-    it "renders the show template" do
-      get :show, id: my_wiki.id
-      expect(response).to render_template(:show)
-    end
+    context "private wikis" do
+      context "guest" do
+        it "returns http redirect" do
+          get :show, id: my_private_wiki.id
+          expect(response).to redirect_to(wikis_path)
+        end
+      end
 
-    it "assigns my_wiki to the @wiki" do
-      get :show, id: my_wiki.id
-      expect(assigns(:wiki)).to eq my_wiki
+      context "signed in user" do
+        login_user
+        it "returns http success" do
+          get :show, id: my_private_wiki.id
+          expect(response).to have_http_status(:success)
+        end
+
+        it "renders the show template" do
+          get :show, id: my_private_wiki.id
+          expect(response).to render_template(:show)
+        end
+
+        it "assigns my_wiki to the @wiki" do
+          get :show, id: my_private_wiki.id
+          expect(assigns(:wiki)).to eq my_private_wiki
+        end
+      end
     end
   end
 
