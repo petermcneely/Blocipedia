@@ -5,8 +5,10 @@
     <% if @wikis.any? %>
       <% @wikis.each do |wiki| %>
         <div>
-          <h4><%= link_to wiki.title, wiki %></h4>
-          <small>submitted <%= time_ago_in_words(wiki.created_at) %> ago by <%= wiki.user.email %></small>
+          <% if !wiki.private? || (wiki.private? && current_user.present?) %>
+            <h4><%= link_to wiki.title, wiki %></h4>
+            <small>submitted <%= time_ago_in_words(wiki.created_at) %> ago by <%= wiki.user.email %></small>
+          <% end %>
         </div>
       <% end %>
     <% else %>
