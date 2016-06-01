@@ -32,7 +32,6 @@ class ChargesController < ApplicationController
   end
 
   def downgrade
-byebug
     current_user.standard!
     current_user.wikis.each do |wiki|
       wiki.update(private: false)
