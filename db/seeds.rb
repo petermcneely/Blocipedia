@@ -5,6 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Create 10 standard users.
 10.times do
   User.create!(
     email: Faker::Internet::email,
@@ -12,12 +14,40 @@
   )
 end
 
+# Create an admin user.
+User.create!(
+  email: ENV['ADMIN_EMAIL'],
+  password: ENV['ADMIN_PASSWORD'],
+  role: "admin"
+)
+
+# Create a premium user.
+User.create!(
+  email: ENV['PREMIUM_EMAIL'],
+  password: ENV['PREMIUM_PASSWORD'],
+  role: "premium"
+)
+
+# Create a standard user.
+User.create!(
+  email: ENV['STANDARD_EMAIL'],
+  password: ENV['STANDARD_PASSWORD'],
+)
+
 users = User.all
 
 50.times do
-  Wiki.create!(
+  wiki = Wiki.create!(
     title: Faker::Lorem::sentence,
     body: Faker::Lorem::paragraph,
-    user: users.sample
+    user: users.sample,
+    private: false
   )
+
+  Collaborator.create!(
+    wiki_id: wiki.id,
+    user_id: wiki.user.id
+  )
+
+
 end

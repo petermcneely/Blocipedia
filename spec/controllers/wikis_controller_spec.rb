@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe WikisController, type: :controller do
   let(:my_user) {FactoryGirl.create(:user)}
-  let(:my_wiki) {FactoryGirl.create(:wiki, user: my_user)}
-  let(:my_private_wiki) {FactoryGirl.create(:wiki, user: my_user, private: true)}
+  let!(:my_wiki) {FactoryGirl.create(:wiki, user: my_user)}
+  let!(:my_private_wiki) {FactoryGirl.create(:wiki, user: my_user, private: true)}
 
   describe "GET index" do
     context "guest" do
@@ -25,9 +25,9 @@ RSpec.describe WikisController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it "assigns my_wiki and my_private_wiki to @wikis" do
+      it "assigns my_wiki to @wikis" do
         get :index
-        expect(assigns(:wikis)).to eq([my_wiki, my_private_wiki])
+        expect(assigns(:wikis)).to eq([my_wiki])
       end
     end
 
@@ -35,15 +35,16 @@ RSpec.describe WikisController, type: :controller do
       login_user
       before do
         subject.current_user.premium!
+        @current_users_private_wiki = FactoryGirl.create(:wiki, user: subject.current_user)
       end
       it "returns http success" do
         get :index
         expect(response).to have_http_status(:success)
       end
 
-      it "assigns my_wiki and my_private_wiki to @wikis" do
+      it "assigns my_wiki and @current_users_private_wiki to @wikis" do
         get :index
-        expect(assigns(:wikis)).to eq([my_wiki, my_private_wiki])
+        expect(assigns(:wikis)).to eq([my_wiki, @current_users_private_wiki])
       end
     end
 
@@ -140,16 +141,16 @@ RSpec.describe WikisController, type: :controller do
   describe "POST create" do
     login_user
     it "increases the number of wikis by one" do
-      expect{post :create, wiki: {title: "Wiki Title", body: "Wiki Body"}}.to change(Wiki, :count).by 1
+      expect{post :create, wiki: {title: "Wiki Title", body: "Wiki Body", private: false}}.to change(Wiki, :count).by 1
     end
 
     it "makes the newly created wiki the last one" do
-      post :create, wiki: {title: "Wiki Title", body: "Wiki Body"}
+      post :create, wiki: {title: "Wiki Title", body: "Wiki Body", private: false}
       expect(assigns(:wiki)).to eq Wiki.last
     end
 
     it "redirects to the wiki page" do
-      post :create, wiki: {title: "Wiki Title", body: "Wiki Body"}
+      post :create, wiki: {title: "Wiki Title", body: "Wiki Body", private: false}
       expect(response).to redirect_to Wiki.last
     end
   end
