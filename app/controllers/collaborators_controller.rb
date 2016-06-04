@@ -9,7 +9,11 @@ class CollaboratorsController < ApplicationController
     else
       flash[:alert] = "Unable to create collaborator. Please try again."
     end
-    redirect_to edit_wiki_path(@collaborator.wiki_id)
+
+    respond_to do |format|
+      format.html #{ redirect_to edit_wiki_path(@collaborator.wiki_id) }
+      format.js
+    end
   end
 
   def destroy
@@ -20,7 +24,11 @@ class CollaboratorsController < ApplicationController
     else
       flash[:alert] = "Unable to delete collaborator. Please try again."
     end
-    redirect_to edit_wiki_path(@collaborator.wiki_id)
+
+    respond_to do |format|
+      format.html #{ redirect_to edit_wiki_path(@collaborator.wiki_id) }
+      format.js
+    end
   end
 
   private

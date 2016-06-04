@@ -15,9 +15,9 @@
           <td><%= user.email %></td>
           <td>
             <% if collaborator %>
-              <%= link_to "Remove Collaborator", collaborator_path(collaborator), method: :delete %>
+              <%= link_to "Remove Collaborator", collaborator_path(collaborator), method: :delete, id: "userid-#{user.id}", remote: true %>
             <% else %>
-              <%= link_to "Add Collaborator", collaborators_path(collaborator: {user_id: user.id, wiki_id: @wiki.id}), method: :post %>
+              <%= link_to "Add Collaborator", collaborators_path(collaborator: {user_id: user.id, wiki_id: @wiki.id}), method: :post, id: "userid-#{user.id}", remote: true %>
             <% end %>
           </td>
         </tr>
@@ -27,7 +27,7 @@
     <% User.all.each do |user| %>
       <% collaborator = user.collaborates_on(@wiki.id) %>
       <% if collaborator %>
-        <%= user.email %>|
+        <%= user.email %> |
       <% end %>
     <% end %>
   <% end %>
