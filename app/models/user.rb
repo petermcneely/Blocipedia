@@ -5,11 +5,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  has_many :wikis
+  has_many :collaborators
+  has_many :wikis, through: :collaborators
 
   validates :role, presence: true
 
   enum role: [:standard, :premium, :admin]
+
+  def collaborates_on(wiki_id)
+    collaborators.where(wiki_id: wiki_id).first
+  end
 
   private
   def give_standard_role

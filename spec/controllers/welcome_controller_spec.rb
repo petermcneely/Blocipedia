@@ -30,7 +30,7 @@ RSpec.describe WelcomeController, type: :controller do
     describe "GET about" do
       it "redirects user to log in" do
         get :about
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to render_template("about")
       end
     end
   end
