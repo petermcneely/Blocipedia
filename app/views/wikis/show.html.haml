@@ -1,0 +1,11 @@
+%div
+  %h2
+    = @wiki.title
+    %div
+      %small
+        submitted #{time_ago_in_words(@wiki.created_at)} ago by #{@wiki.user.email}#{"(private)" if @wiki.private?}
+  %div
+    = markdown(@wiki.body)
+  .row
+    = link_to "Edit Wiki", edit_wiki_path(@wiki), class:"btn btn-success", method: :get
+    = link_to "Delete Wiki", @wiki, class:"btn btn-danger", method: :delete
