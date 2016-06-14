@@ -12,11 +12,21 @@
     = f.text_field :title, class: 'form-control', placeholder: "Enter wiki title"
   = form_group_tag(wiki.errors[:body]) do
     = f.label :body
-    = f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter wiki body"
+    = f.hidden_field :body, id: 'hidden_wiki_body'
+    #epiceditor
+      = f.text_area :body, rows: 8, class: 'form-control', id: 'wiki_body', placeholder: "Enter wiki body"
   - if current_user.premium? || current_user.admin?
     .form-group
       = f.label :private, class: "checkbox" do
         = f.check_box :private
         Private Wiki
   .form-group
-    = f.submit "Save", class: 'btn btn-success'
+    = f.submit "Save", class: 'btn btn-success', onclick: 'update_data()'
+:javascript
+  var opts = {basePath: '/assets/epiceditor', textarea: wiki_body};
+  var editor = new EpicEditor(opts).load();
+  function update_data()
+  {
+    var hidden_wiki_body = document.getElementById('hidden_wiki_body');
+    hidden_wiki_body.value = editor.getElement('editor').body.innerHTML;
+  };

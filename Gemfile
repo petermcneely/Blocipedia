@@ -26,6 +26,7 @@ source 'https://rubygems.org'
  gem 'redcarpet'
  gem 'haml'
  gem 'friendly_id', '~> 5.1.0'
+ gem 'epiceditor', '~> 0.2.2' #https://github.com/AJAlabs/EpicEditor
 
  group :development, :test do
    gem 'byebug'
