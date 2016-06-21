@@ -1,5 +1,0 @@
-<% if @collaborator.destroyed? %>
-  $("#userid-<%=@collaborator.user_id%>").html('<%= link_to "Add Collaborator", collaborators_path(collaborator: {user_id: @collaborator.user_id, wiki_id: @collaborator.wiki_id}), method: :post, id: "userid-#{@collaborator.user_id}", remote: true %>');
-<% else %>
-  $('.flash').prepend("<div class='alert alert-danger'><button type='button' class='close' data-dismiss='alert'>&times;</button><%= flash.now[:alert] %></div>");
-<% end %>

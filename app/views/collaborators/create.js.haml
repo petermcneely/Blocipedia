@@ -1,0 +1,8 @@
+- if @collaborator.valid?
+  $("#userid-#{@collaborator.user_id}").html('#{link_to "Remove Collaborator", collaborator_path(@collaborator), method: :delete, id: "userid-#{@collaborator.user_id}", remote: true}');
+- else
+  $('.flash').prepend("
+  .alert.alert-danger>
+    %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+    = flash.now[:alert]
+  ");
