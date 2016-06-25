@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
-ruby '2.2.1'
+#ruby '2.2.1'
  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
  gem 'rails', '4.2.5'
 
  group :production do
-   gem 'pg' #bundle install is not able to install this gem so I bundle install --without production.
+   gem 'pg'
    gem 'rails_12factor'
  end
 
@@ -26,7 +26,8 @@ ruby '2.2.1'
  gem 'redcarpet'
  gem 'haml'
  gem 'friendly_id', '~> 5.1.0'
- gem 'epiceditor', '~> 0.2.2' #https://github.com/AJAlabs/EpicEditor
+ #gem 'epiceditor', '~> 0.2.2' #https://github.com/AJAlabs/EpicEditor
+ gem 'epic_editor', :path => 'EpicEditor'
 
  group :development, :test do
    gem 'byebug'
