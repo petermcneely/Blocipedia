@@ -326,7 +326,7 @@
       , _defaultFileSchema
       , _defaultFile
       , defaults = { container: 'epiceditor'
-        , basePath: 'epiceditor'
+        , basePath: '/assets/epic_editor'
         , textarea: undefined
         , clientSideStorage: true
         , localStorageName: 'epiceditor'
