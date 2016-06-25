@@ -23,7 +23,7 @@
   .form-group
     = f.submit "Save", class: 'btn btn-success', onclick: 'update_data()'
 :javascript
-  var opts = {textarea: wiki_body};
+  var opts = {textarea: wiki_body, clientSideStorage: false};
   var editor = new EpicEditor(opts).load();
   function update_data()
   {
