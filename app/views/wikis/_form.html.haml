@@ -20,13 +20,25 @@
       = f.label :private, class: "checkbox" do
         = f.check_box :private
         Private Wiki
+  - else
+    = f.hidden_field :private, id: 'hidden_wiki_private'
   .form-group
     = f.submit "Save", class: 'btn btn-success', onclick: 'update_data()'
 :javascript
-  var opts = {textarea: wiki_body, clientSideStorage: false};
+  var opts = {
+    textarea: wiki_body,
+    clientSideStorage: false,
+    theme: { base: '/../epic_editor-a375c10c2b8c5419b578396cb011323ac4d018041c7cb380ddec50bc84044e60.css'
+          , preview: '/../epic_editor-a375c10c2b8c5419b578396cb011323ac4d018041c7cb380ddec50bc84044e60.css'
+          , editor: '/../epic_editor-a375c10c2b8c5419b578396cb011323ac4d018041c7cb380ddec50bc84044e60.css'
+          }
+  };
   var editor = new EpicEditor(opts).load();
   function update_data()
   {
     var hidden_wiki_body = document.getElementById('hidden_wiki_body');
     hidden_wiki_body.value = editor.getElement('editor').body.innerHTML;
+
+    var hidden_wiki_private = document.getElementById('hidden_wiki_private');
+    hidden_wiki_private.value = false;
   };
