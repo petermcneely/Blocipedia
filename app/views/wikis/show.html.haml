@@ -9,3 +9,5 @@
   .row
     = link_to "Edit Wiki", edit_wiki_path(@wiki), class:"btn btn-success", method: :get
     = link_to "Delete Wiki", @wiki, class:"btn btn-danger", method: :delete
+:javascript
+  blocmetrics.report("#{@wiki.title}");
