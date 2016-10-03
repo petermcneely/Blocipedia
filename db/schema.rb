@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601025046) do
+ActiveRecord::Schema.define(version: 20160610004018) do
 
   create_table "collaborators", force: :cascade do |t|
     t.integer  "user_id"
@@ -55,8 +55,10 @@ ActiveRecord::Schema.define(version: 20160601025046) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "slug",       null: false
   end
 
+  add_index "wikis", ["slug"], name: "index_wikis_on_slug", unique: true
   add_index "wikis", ["user_id"], name: "index_wikis_on_user_id"
 
 end

@@ -69,7 +69,7 @@ class WikisController < ApplicationController
 
   def get_wiki
     begin
-      Wiki.visible_to(current_user).find(params[:id])
+      Wiki.visible_to(current_user).friendly.find(params[:id])
     rescue
       flash[:alert] = "Unable to find that wiki."
       redirect_to wikis_path
